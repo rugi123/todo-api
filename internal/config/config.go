@@ -9,13 +9,15 @@ import (
 )
 
 type PostgresConfig struct {
-	Host      string `yaml:"host"`
-	Port      int    `yaml:"port"`
-	User      string `yaml:"user"`
-	Password  string `yaml:"password"`
-	DBName    string `yaml:"dbname"`
-	TableName string `yaml:"tablename"`
-	SSLMode   string `yaml:"sslmode"`
+	Host              string `yaml:"host"`
+	Port              int    `yaml:"port"`
+	User              string `yaml:"user"`
+	Password          string `yaml:"password"`
+	DBName            string `yaml:"dbname"`
+	UserTableName     string `yaml:"users_table"`
+	TaskListTableName string `yaml:"tasks_lists_table"`
+	TaskTableName     string `yaml:"tasks_table"`
+	SSLMode           string `yaml:"sslmode"`
 }
 
 type AppConfig struct {

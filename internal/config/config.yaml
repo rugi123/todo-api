@@ -9,6 +9,8 @@ postgres:
   port: 5432
   user: "postgres"
   password: "1483"
-  dbname: ""
-  tablename: ""
+  dbname: "todo_app"
+  users_table: "users"
+  tasks_lists_table: "tasks_lists"
+  tasks_table: "tasks"
   sslmode: "disable"
