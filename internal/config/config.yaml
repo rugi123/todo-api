@@ -1,0 +1,14 @@
+app:
+  env: "dev"
+  port: "8080"
+  jwt_secret: ""
+  token_ttl: "24h"
+
+postgres:
+  host: "localhost"
+  port: 5432
+  user: "postgres"
+  password: "1483"
+  dbname: ""
+  tablename: ""
+  sslmode: "disable"
