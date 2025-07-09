@@ -9,15 +9,11 @@ import (
 )
 
 type PostgresConfig struct {
-	Host              string `yaml:"host"`
-	Port              int    `yaml:"port"`
-	User              string `yaml:"user"`
-	Password          string `yaml:"password"`
-	DBName            string `yaml:"dbname"`
-	UserTableName     string `yaml:"users_table"`
-	TaskListTableName string `yaml:"tasks_lists_table"`
-	TaskTableName     string `yaml:"tasks_table"`
-	SSLMode           string `yaml:"sslmode"`
+	Port     int    `yaml:"port"`
+	User     string `yaml:"user"`
+	Password string `yaml:"password"`
+	DBName   string `yaml:"dbname"`
+	SSLMode  string `yaml:"sslmode"`
 }
 
 type AppConfig struct {
@@ -32,10 +28,9 @@ type Config struct {
 	PostgresConfig PostgresConfig
 }
 
-func (c *PostgresConfig) DSN() string {
+func (cfg *PostgresConfig) DSN() string {
 	return fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
-		c.Host, c.Port, c.User, c.Password, c.DBName, c.SSLMode,
+		"postgres://%s:%s@localhost:%v/%s", cfg.User, cfg.Password, cfg.Port, cfg.DBName,
 	)
 }
 

@@ -5,12 +5,8 @@ app:
   token_ttl: "24h"
 
 postgres:
-  host: "localhost"
   port: 5432
   user: "postgres"
   password: "1483"
   dbname: "todo_app"
-  users_table: "users"
-  tasks_lists_table: "tasks_lists"
-  tasks_table: "tasks"
   sslmode: "disable"
