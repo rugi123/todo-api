@@ -3,7 +3,6 @@ app:
   port: "8080"
   jwt_secret: ""
   token_ttl: "24h"
-
 postgres:
   port: 5432
   user: "postgres"

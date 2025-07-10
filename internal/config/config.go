@@ -24,8 +24,8 @@ type AppConfig struct {
 }
 
 type Config struct {
-	App            AppConfig
-	PostgresConfig PostgresConfig
+	AppConfig      AppConfig      `yaml:"app"`
+	PostgresConfig PostgresConfig `yaml:"postgres"`
 }
 
 func (cfg *PostgresConfig) DSN() string {

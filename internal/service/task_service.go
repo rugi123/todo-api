@@ -1,13 +1,17 @@
 package service
 
 import (
+	"context"
+
 	"github.com/rugi123/todo-api/internal/models"
 	"github.com/rugi123/todo-api/internal/storage"
 )
 
 type Storage[T models.Entity] interface {
-	Save() error
-	Get() (*T, error)
+	Create(ctx context.Context, entity T) error
+	Update(ctx context.Context, entity *T) error
+	GetByID(ctx context.Context, id int) (*T, error)
+	Delete(ctx context.Context, id int) error
 }
 
 type Service struct {
@@ -26,7 +30,7 @@ type TaskService struct {
 	storage Storage[models.Task]
 }
 
-func NewService[T models.Entity](storage storage.PGStorage) *Service {
+func NewService(storage storage.PGStorage) *Service {
 	return &Service{
 		UserService: UserService{
 			storage: storage.UserStorage,
@@ -41,5 +45,5 @@ func NewService[T models.Entity](storage storage.PGStorage) *Service {
 }
 
 func (s *UserService) GenHashPasswd() {
-	s.storage.Save()
+	//s.storage.Save()
 }
