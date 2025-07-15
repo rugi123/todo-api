@@ -13,7 +13,8 @@ type UserStorage struct {
 	pool *pgxpool.Pool
 }
 
-func (s UserStorage) Create(ctx context.Context, user models.User) error {
+func (s UserStorage) CreateUser(ctx context.Context, user models.User) error {
+
 	_, err := s.pool.Exec(ctx, `
 		INSERT INTO users 
     	(username, email, password_hash, created_at, updated_at)
@@ -26,7 +27,7 @@ func (s UserStorage) Create(ctx context.Context, user models.User) error {
 	}
 	return nil
 }
-func (s UserStorage) Update(ctx context.Context, user *models.User) error {
+func (s UserStorage) UpdateUser(ctx context.Context, user *models.User) error {
 	query := `
 		UPDATE users 
 		SET 
@@ -44,7 +45,7 @@ func (s UserStorage) Update(ctx context.Context, user *models.User) error {
 	}
 	return nil
 }
-func (s UserStorage) GetByID(ctx context.Context, id int) (*models.User, error) {
+func (s UserStorage) GetUserByID(ctx context.Context, id int) (*models.User, error) {
 	query := `
 		SELECT id, username, email, password_hash, created_at, updated_at
 		FROM users 
@@ -58,14 +59,14 @@ func (s UserStorage) GetByID(ctx context.Context, id int) (*models.User, error) 
 	}
 	return &user, nil
 }
-func (s UserStorage) GetByUserName(ctx context.Context, username string) (*models.User, error) {
+func (s UserStorage) GetUserByName(ctx context.Context, user_name string) (*models.User, error) {
 	query := `
 		SELECT id, username, email, password_hash, created_at, updated_at
 		FROM users 
 		WHERE username = $1`
 
 	var user models.User
-	err := s.pool.QueryRow(ctx, query, username).Scan(
+	err := s.pool.QueryRow(ctx, query, user_name).Scan(
 		&user.ID, &user.UserName, &user.Email, &user.PasswordHash, &user.CreatedAt, &user.UpdatedAt)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user: %w", err)
@@ -100,7 +101,7 @@ func (s UserStorage) GetAllTasksForUser(ctx context.Context, user_id int) ([]mod
 
 	return tasks, nil
 }
-func (s UserStorage) Delete(ctx context.Context, id int) error {
+func (s UserStorage) DeleteUser(ctx context.Context, id int) error {
 	query := "DELETE FROM users WHERE id = $1"
 	_, err := s.pool.Exec(ctx, query, id)
 	if err != nil {

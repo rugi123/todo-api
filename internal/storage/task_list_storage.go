@@ -13,7 +13,7 @@ type TaskListStorage struct {
 	pool *pgxpool.Pool
 }
 
-func (s TaskListStorage) Create(ctx context.Context, taskList models.TaskList) error {
+func (s TaskListStorage) CreateTaskList(ctx context.Context, taskList models.TaskList) error {
 	_, err := s.pool.Exec(ctx, `
 		INSERT INTO task_lists 
 		(user_id, title, description, created_at, updated_at)
@@ -26,7 +26,7 @@ func (s TaskListStorage) Create(ctx context.Context, taskList models.TaskList) e
 	}
 	return nil
 }
-func (s TaskListStorage) Update(ctx context.Context, task_lists *models.TaskList) error {
+func (s TaskListStorage) UpdateTaskList(ctx context.Context, task_lists *models.TaskList) error {
 	query := `
 		UPDATE task_lists 
 		SET 
@@ -43,7 +43,7 @@ func (s TaskListStorage) Update(ctx context.Context, task_lists *models.TaskList
 	}
 	return nil
 }
-func (s TaskListStorage) GetByID(ctx context.Context, id int) (*models.TaskList, error) {
+func (s TaskListStorage) GetTaskListByID(ctx context.Context, id int) (*models.TaskList, error) {
 	query := `
 		SELECT id, user_id, title, description, created_at, updated_at
 		FROM task_lists 
@@ -57,7 +57,7 @@ func (s TaskListStorage) GetByID(ctx context.Context, id int) (*models.TaskList,
 	}
 	return &task_list, nil
 }
-func (s TaskListStorage) Delete(ctx context.Context, id int) error {
+func (s TaskListStorage) DeleteTaskList(ctx context.Context, id int) error {
 	query := "DELETE FROM task_lists WHERE id = $1"
 	_, err := s.pool.Exec(ctx, query, id)
 	if err != nil {

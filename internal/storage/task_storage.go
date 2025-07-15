@@ -13,7 +13,7 @@ type TaskStorage struct {
 	pool *pgxpool.Pool
 }
 
-func (s TaskStorage) Create(ctx context.Context, task models.Task) error {
+func (s TaskStorage) CreateTask(ctx context.Context, task models.Task) error {
 	_, err := s.pool.Exec(ctx, `
 		INSERT INTO tasks 
 		(list_id, title, description, is_completed, due_date, priority, created_at, updated_at)
@@ -27,7 +27,7 @@ func (s TaskStorage) Create(ctx context.Context, task models.Task) error {
 	}
 	return nil
 }
-func (s TaskStorage) Update(ctx context.Context, task *models.Task) error {
+func (s TaskStorage) UpdateTask(ctx context.Context, task *models.Task) error {
 	query := `
 		UPDATE tasks 
 		SET 
@@ -54,14 +54,28 @@ func (s TaskStorage) GetByID(ctx context.Context, id int) (*models.Task, error) 
 		WHERE id = $1`
 
 	var task models.Task
-	err := s.pool.QueryRow(ctx, query, id).Scan(&task.ID, &task.ListID, &task.Title, &task.Description,
+	err := s.pool.QueryRow(ctx, query, task.ID).Scan(&task.ID, &task.ListID, &task.Title, &task.Description,
 		&task.IsComplited, &task.DueDate, &task.Priority, &task.CreatedAt, &task.UpdatedAt)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get task: %w", err)
 	}
 	return &task, nil
 }
-func (s TaskStorage) Delete(ctx context.Context, id int) error {
+func (s TaskStorage) GetByListID(ctx context.Context, list_id int) (*models.Task, error) {
+	query := `
+		SELECT id, list_id ,title, description, is_completed, due_date, priority, created_at, updated_at
+		FROM tasks 
+		WHERE list_id = $1`
+
+	var task models.Task
+	err := s.pool.QueryRow(ctx, query, list_id).Scan(&task.ID, &task.ListID, &task.Title, &task.Description,
+		&task.IsComplited, &task.DueDate, &task.Priority, &task.CreatedAt, &task.UpdatedAt)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get task: %w", err)
+	}
+	return &task, nil
+}
+func (s TaskStorage) DeleteTask(ctx context.Context, id int) error {
 	query := "DELETE FROM tasks WHERE id = $1"
 	_, err := s.pool.Exec(ctx, query, id)
 	if err != nil {
