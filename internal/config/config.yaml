@@ -1,7 +1,7 @@
 app:
   env: "dev"
   port: "8080"
-  jwt_secret: ""
+  jwt_secret: "3f9a7b4e2c1d0e8f5a6b3c8d7e2f5a9d1e4f7a2b5c8d3e6f9a1b4c7d0e3f6a9b2"
   token_ttl: "24h"
 postgres:
   port: 5432

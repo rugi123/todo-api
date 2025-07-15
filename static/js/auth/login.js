@@ -4,8 +4,6 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     // Проверяем существование элемента перед использованием
     const messageElement = document.getElementById('auth-message');
 
-    messageElement.innerHTML = '<div class="loading">Вход в систему...</div>';
-
     try {
         const response = await fetch('/auth/login', {
             method: 'POST',
@@ -25,9 +23,6 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         }
 
         // Сохраняем токен (если сервер его возвращает)
-        if (data.token) {
-            localStorage.setItem('authToken', data.token);
-        }
 
         // Редирект после успешного входа
         window.location.href = data.redirect || '/profile';

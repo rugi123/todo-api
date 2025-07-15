@@ -5,7 +5,6 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     console.log("submit");
 
     const messageElement = document.getElementById('auth-message');
-    messageElement.innerHTML = '<div class="loading">Вход в систему...</div>';
 
     try {
         const response = await fetch('/auth/register', {
@@ -28,7 +27,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
             const errorMsg = data.error || data.message || 'Неизвестная ошибка';
             throw new Error(errorMsg);
         }
-        //window.location.href = data.redirect || '/auth/login';
+        window.location.href = data.redirect || '/auth/login';
 
     } catch (error) {
         messageElement.innerHTML = `
